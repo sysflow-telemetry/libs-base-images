@@ -22,7 +22,7 @@ LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCO
 ENV PATH=$PATH:/usr/local/go/bin/
 ENV GOPATH=/go/
 
-ENV FALCOSECURITY_LIBS_LIB_PREFIX=/usr/lib/x86_64-linux-gnu/falcosecurity
+ENV FALCOSECURITY_LIBS_LIB_PREFIX=/usr/lib/falcosecurity
 ENV FALCOSECURITY_LIBS_INCLUDE_PREFIX=/usr/include/falcosecurity
 ENV FALCOSECURITY_LIBS_CFLAGS='-I$(FALCOSECURITY_LIBS_INCLUDE_PREFIX)/ \
                                -I$(FALCOSECURITY_LIBS_INCLUDE_PREFIX)/userspace/libsinsp \
