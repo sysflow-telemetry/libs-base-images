@@ -2,27 +2,30 @@ FROM debian:buster
 
 ARG FALCOSECURITY_LIBS_DRIVER_VERSION
 ARG FALCOSECURITY_LIBS_VERSION
-ARG FALCOSECURITY_VERSION
+ARG FALCOSECURITY_LIBS_CHECKSUM
 ARG DRIVER_PACKAGE_NAME=falco
 ARG DRIVER_NAME=falco
 ARG SCAP_BPF_PROBE_ENV_VAR_NAME=FALCO_BPF_PROBE
+ARG FALCO_VERSION
 
 LABEL "name"="Base image for Falco Libs"
 LABEL "vendor"="Falco"
 LABEL "version"="${FALCOSECURITY_LIBS_VERSION}"
 LABEL "release"="${FALCOSECURITY_LIBS_VERSION}"
-LABEL "driver"="${FALCOSECURITY_LIBS_DRIVER_VERSION}"
 LABEL "summary"="Falco Libs implements userspace libraries and drivers for system event collection."
 LABEL "description"="Falco Libs implements userspace libraries and drivers for system event collection."
 LABEL "io.k8s.display-name"="Falco Libs"
 LABEL "io.k8s.description"="Falco Libs implements userspace libraries and drivers for system event collection."
 LABEL maintainer="cncf-falco-dev@lists.cncf.io"
-LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} --build-args FALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} --build-args FALCOSECURITY_VERSION=${FALCOSECURITY_VERSION} -f ./docker/libs/Dockerfile -t falcosecurity/libs ."
+LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} --build-args FALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} --build-args=${FALCOSECURITY_LIBS_CHECKSUM} -f ./docker/libs/Dockerfile -t falcosecurity/libs ."
+
+COPY ./CMakeLists.txt /build/
+COPY ./cmake /build/cmake
 
 ENV PATH=$PATH:/usr/local/go/bin/
 ENV GOPATH=/go/
 
-ENV FALCOSECURITY_LIBS_LIB_PREFIX=/usr/lib/falcosecurity
+ENV FALCOSECURITY_LIBS_LIB_PREFIX=/usr/lib/x86_64-linux-gnu/falcosecurity
 ENV FALCOSECURITY_LIBS_INCLUDE_PREFIX=/usr/include/falcosecurity
 ENV FALCOSECURITY_LIBS_CFLAGS='-I$(FALCOSECURITY_LIBS_INCLUDE_PREFIX)/ \
                                -I$(FALCOSECURITY_LIBS_INCLUDE_PREFIX)/userspace/libsinsp \
@@ -52,7 +55,8 @@ ENV FALCOSECURITY_LIBS_LDFLAGS='-L$(FALCOSECURITY_LIBS_LIB_PREFIX)/ \
                                 $(FALCOSECURITY_LIBS_LIB_PREFIX)/libabsl_debugging_internal.a $(FALCOSECURITY_LIBS_LIB_PREFIX)/libabsl_demangle_internal.a \
 		                        -lelf -lstdc++ -lz -lrt -lanl -lssl -lcrypto -lpthread -lm -ldl -lupb -laddress_sorting -lre2'
 
-RUN cd build && mkdir -p build && cd build && mkdir -p /usr/local/ && \
+#RUN cd build && mkdir -p build && cd build && mkdir -p /usr/local/ && \
+RUN cd build && \
     apt update && apt install -y --no-install-recommends \
         git \
         cmake \
@@ -64,13 +68,15 @@ RUN cd build && mkdir -p build && cd build && mkdir -p /usr/local/ && \
         wget && \
     apt install -y --reinstall ca-certificates && \
     git config --global http.sslCAinfo /etc/ssl/certs/ca-certificates.crt && \
-    cmake -DDRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} \
-        -DDRIVER_NAME=${DRIVER_NAME} \
-        -DDRIVER_PACKAGE_NAME=${DRIVER_PACKAGE_NAME} \
-        -DSCAP_BPF_PROBE_ENV_VAR_NAME=${SCAP_BPF_PROBE_ENV_VAR_NAME} \
-        -DCAP_HOST_ROOT_ENV_VAR_NAME=HOST_ROOT \
+    wget https://github.com/falcosecurity/falco/archive/refs/tags/${FALCO_VERSION}.tar.gz && \
+    tar xvf ${FALCO_VERSION}.tar.gz && cd falco-${FALCO_VERSION} && mkdir build && cd build && \
+    cmake  \
+	-DFALCO_VERSION=${FALCO_VERSION} \
+        -DDRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} \
         -DFALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} \
         -DFALCOSECURITY_LIBS_CHECKSUM=${FALCOSECURITY_LIBS_CHECKSUM} \
+        -DDRIVER_NAME=${DRIVER_NAME} \
+        -DDRIVER_PACKAGE_NAME=${DRIVER_PACKAGE_NAME} \
         -DCMAKE_INSTALL_PREFIX=/usr/ \
         -DCMAKE_BUILD_TYPE=Release \
         -DUSE_BUNDLED_GTEST=ON \
@@ -78,7 +84,7 @@ RUN cd build && mkdir -p build && cd build && mkdir -p /usr/local/ && \
         -DCREATE_TEST_TARGETS=OFF \
         -DBUILD_BPF=OFF  \
         -DBUILD_DRIVER=OFF ../. && \
-    make install && \
+    make install && cp docker/falco/docker-entrypoint.sh /usr/bin/ && \
     wget https://go.dev/dl/go1.17.7.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz && \
     rm -rf /build && rm -rf /var/lib/apt/lists/*
