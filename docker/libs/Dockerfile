@@ -2,6 +2,7 @@ FROM debian:buster
 
 ARG FALCOSECURITY_LIBS_DRIVER_VERSION
 ARG FALCOSECURITY_LIBS_VERSION
+ARG FALCOSECURITY_VERSION
 ARG DRIVER_PACKAGE_NAME=falco
 ARG DRIVER_NAME=falco
 ARG SCAP_BPF_PROBE_ENV_VAR_NAME=FALCO_BPF_PROBE
@@ -16,14 +17,12 @@ LABEL "description"="Falco Libs implements userspace libraries and drivers for s
 LABEL "io.k8s.display-name"="Falco Libs"
 LABEL "io.k8s.description"="Falco Libs implements userspace libraries and drivers for system event collection."
 LABEL maintainer="cncf-falco-dev@lists.cncf.io"
-LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} --build-args FALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} --build-args=${FALCOSECURITY_LIBS_CHECKSUM} -f ./docker/libs/Dockerfile -t falcosecurity/libs ."
-
-COPY ./scripts /build/scripts
+LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} --build-args FALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} --build-args FALCOSECURITY_VERSION=${FALCOSECURITY_VERSION} -f ./docker/libs/Dockerfile -t falcosecurity/libs ."
 
 ENV PATH=$PATH:/usr/local/go/bin/
 ENV GOPATH=/go/
 
-ENV FALCOSECURITY_LIBS_LIB_PREFIX=/usr/lib/x86_64-linux-gnu/falcosecurity
+ENV FALCOSECURITY_LIBS_LIB_PREFIX=/usr/lib/falcosecurity
 ENV FALCOSECURITY_LIBS_INCLUDE_PREFIX=/usr/include/falcosecurity
 ENV FALCOSECURITY_LIBS_CFLAGS='-I$(FALCOSECURITY_LIBS_INCLUDE_PREFIX)/ \
                                -I$(FALCOSECURITY_LIBS_INCLUDE_PREFIX)/userspace/libsinsp \
@@ -53,9 +52,7 @@ ENV FALCOSECURITY_LIBS_LDFLAGS='-L$(FALCOSECURITY_LIBS_LIB_PREFIX)/ \
                                 $(FALCOSECURITY_LIBS_LIB_PREFIX)/libabsl_debugging_internal.a $(FALCOSECURITY_LIBS_LIB_PREFIX)/libabsl_demangle_internal.a \
 		                        -lelf -lstdc++ -lz -lrt -lanl -lssl -lcrypto -lpthread -lm -ldl -lupb -laddress_sorting -lre2'
 
-RUN wget -P /build https://github.com/falcosecurity/libs/archive/${FALCOSECURITY_LIBS_VERSION}.tar.gz && \
-    FALCOSECURITY_LIBS_CHECKSUM=$(cat /build/${FALCOSECURITY_LIBS_VERSION}.tar.gz | sha256sum | cut -d " " -f 1) && \
-    cd build && mkdir -p build && cd build && mkdir -p /usr/local/ && \
+RUN cd build && mkdir -p build && cd build && mkdir -p /usr/local/ && \
     apt update && apt install -y --no-install-recommends \
         git \
         cmake \

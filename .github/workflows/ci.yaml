@@ -39,6 +39,7 @@ jobs:
         run: |
           echo "FALCOSECURITY_LIBS_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
           echo "FALCOSECURITY_LIBS_DRIVER_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_VERSION=$(awk -F'=' '/FALCOSECURITY_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
@@ -49,6 +50,7 @@ jobs:
           build-args: |
             FALCOSECURITY_LIBS_VERSION=${{ env.FALCOSECURITY_LIBS_VERSION }}
             FALCOSECURITY_LIBS_DRIVER_VERSION=${{ env.FALCOSECURITY_LIBS_DRIVER_VERSION }}
+            FALCOSECURITY_VERSION=${{ env.FALCOSECURITY_VERSION }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
   docker-runtime:

@@ -1,7 +1,10 @@
-FROM debian:buster
-
 ARG FALCOSECURITY_LIBS_DRIVER_VERSION
 ARG FALCOSECURITY_LIBS_VERSION
+
+FROM ghcr.io/sysflow-telemetry/libs-base-images:${FALCOSECURITY_LIBS_VERSION} as libs
+
+FROM debian:buster as runtime
+
 ARG DRIVER_PACKAGE_NAME=falco
 
 LABEL "name"="Base image for Libs consumers containing the Falco driver loader"
@@ -104,14 +107,9 @@ RUN curl -L -o binutils_2.30-22_amd64.deb https://download.falco.org/dependencie
 	&& dpkg -i *binutils*.deb \
 	&& rm -f *binutils*.deb
 
-# Copy and configure the driver loader
-COPY ./scripts/falco-driver-loader /usr/bin/
-RUN sed -i -E "s/@DRIVER_VERSION@/\"${FALCOSECURITY_LIBS_DRIVER_VERSION}\"/" /usr/bin/falco-driver-loader && \
-    sed -i -E "s/@FALCO_VERSION@/\"${FALCOSECURITY_LIBS_VERSION}\"/" /usr/bin/falco-driver-loader && \
-	sed -i -E "s/@DRIVER_NAME@/\"${DRIVER_PACKAGE_NAME}\"/" /usr/bin/falco-driver-loader && \
-	chmod +x /usr/bin/falco-driver-loader
-
-COPY ./docker/driver-loader/docker-entrypoint.sh /
+# Copy the driver loader and entrypoint scripts
+COPY --from=libs /usr/bin/falco-driver-loader /usr/bin/
+COPY --from=libs /usr/bin/docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
