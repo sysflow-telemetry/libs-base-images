@@ -18,8 +18,6 @@ LABEL "io.k8s.display-name"="Falco Libs"
 LABEL "io.k8s.description"="Falco Libs implements userspace libraries and drivers for system event collection."
 LABEL maintainer="cncf-falco-dev@lists.cncf.io"
 LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} --build-args FALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} --build-args FALCO_VERSION=${FALCO_VERSION} -f ./docker/libs/Dockerfile -t falcosecurity/libs ."
-COPY ./CMakeLists.txt /build/
-COPY ./cmake /build/cmake
 
 ENV PATH=$PATH:/usr/local/go/bin/
 ENV GOPATH=/go/
