@@ -52,8 +52,7 @@ ENV FALCOSECURITY_LIBS_LDFLAGS='-L$(FALCOSECURITY_LIBS_LIB_PREFIX)/ \
                                 $(FALCOSECURITY_LIBS_LIB_PREFIX)/libabsl_debugging_internal.a $(FALCOSECURITY_LIBS_LIB_PREFIX)/libabsl_demangle_internal.a \
 		                        -lelf -lstdc++ -lz -lrt -lanl -lssl -lcrypto -lpthread -lm -ldl -lupb -laddress_sorting -lre2'
 
-#RUN cd build && mkdir -p build && cd build && mkdir -p /usr/local/ && \
-RUN cd build && \
+RUN mkdir -p /build && cd build && \
     apt update && apt install -y --no-install-recommends \
         git \
         cmake \
