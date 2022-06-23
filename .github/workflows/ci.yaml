@@ -37,9 +37,8 @@ jobs:
         id: args
         shell: bash
         run: |
-          echo "FALCOSECURITY_LIBS_VERSION=${{ github.sha }}" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=${{ github.sha }}" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_CHECKSUM=$(wget -qO- https://github.com/falcosecurity/libs/archive/${{ github.sha }}.tar.gz | sha256sum | cut -d " " -f 1)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
@@ -50,7 +49,6 @@ jobs:
           build-args: |
             FALCOSECURITY_LIBS_VERSION=${{ env.FALCOSECURITY_LIBS_VERSION }}
             FALCOSECURITY_LIBS_DRIVER_VERSION=${{ env.FALCOSECURITY_LIBS_DRIVER_VERSION }}
-            FALCOSECURITY_LIBS_CHECKSUM=${{ env.FALCOSECURITY_LIBS_CHECKSUM }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
   docker-runtime:
@@ -83,9 +81,8 @@ jobs:
         id: args
         shell: bash
         run: |
-          echo "FALCOSECURITY_LIBS_VERSION=${{ github.sha }}" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=${{ github.sha }}" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_CHECKSUM=$(wget -qO- https://github.com/falcosecurity/libs/archive/${{ github.sha }}.tar.gz | sha256sum | cut -d " " -f 1)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
@@ -96,6 +93,5 @@ jobs:
           build-args: |
             FALCOSECURITY_LIBS_VERSION=${{ env.FALCOSECURITY_LIBS_VERSION }}
             FALCOSECURITY_LIBS_DRIVER_VERSION=${{ env.FALCOSECURITY_LIBS_DRIVER_VERSION }}
-            FALCOSECURITY_LIBS_CHECKSUM=${{ env.FALCOSECURITY_LIBS_CHECKSUM }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

@@ -2,19 +2,19 @@ FROM debian:buster
 
 ARG FALCOSECURITY_LIBS_DRIVER_VERSION
 ARG FALCOSECURITY_LIBS_VERSION
-ARG FALCOSECURITY_LIBS_CHECKSUM
 ARG DRIVER_PACKAGE_NAME=falco
 
 LABEL "name"="Base image for Libs consumers containing the Falco driver loader"
 LABEL "vendor"="Falco"
 LABEL "version"="${FALCOSECURITY_LIBS_VERSION}"
 LABEL "release"="${FALCOSECURITY_LIBS_VERSION}"
+LABEL "driver"="${FALCOSECURITY_LIBS_DRIVER_VERSION}"
 LABEL "summary"="Falco drivers implement the probes for system event collection used by Libs consumers."
 LABEL "description"="Falco drivers implement the probes for system event collection used by Libs consumers"
 LABEL "io.k8s.display-name"="Falco Drivers"
 LABEL "io.k8s.description"="Falco drivers implement the probes for system event collection used by Libs consumers"
 LABEL maintainer="cncf-falco-dev@lists.cncf.io"
-LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} --build-args FALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} --build-args=${FALCOSECURITY_LIBS_CHECKSUM} -f ./docker/driver-loader/Dockerfile -t falcosecurity/driver-loader ."
+LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} --build-args FALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} -f ./docker/driver-loader/Dockerfile -t falcosecurity/driver-loader ."
 
 ARG VERSION_BUCKET=deb
 ENV VERSION_BUCKET=${VERSION_BUCKET}

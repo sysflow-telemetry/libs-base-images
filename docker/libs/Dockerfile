@@ -2,7 +2,6 @@ FROM debian:buster
 
 ARG FALCOSECURITY_LIBS_DRIVER_VERSION
 ARG FALCOSECURITY_LIBS_VERSION
-ARG FALCOSECURITY_LIBS_CHECKSUM
 ARG DRIVER_PACKAGE_NAME=falco
 ARG DRIVER_NAME=falco
 ARG SCAP_BPF_PROBE_ENV_VAR_NAME=FALCO_BPF_PROBE
@@ -11,6 +10,7 @@ LABEL "name"="Base image for Falco Libs"
 LABEL "vendor"="Falco"
 LABEL "version"="${FALCOSECURITY_LIBS_VERSION}"
 LABEL "release"="${FALCOSECURITY_LIBS_VERSION}"
+LABEL "driver"="${FALCOSECURITY_LIBS_DRIVER_VERSION}"
 LABEL "summary"="Falco Libs implements userspace libraries and drivers for system event collection."
 LABEL "description"="Falco Libs implements userspace libraries and drivers for system event collection."
 LABEL "io.k8s.display-name"="Falco Libs"
@@ -18,11 +18,7 @@ LABEL "io.k8s.description"="Falco Libs implements userspace libraries and driver
 LABEL maintainer="cncf-falco-dev@lists.cncf.io"
 LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} --build-args FALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} --build-args=${FALCOSECURITY_LIBS_CHECKSUM} -f ./docker/libs/Dockerfile -t falcosecurity/libs ."
 
-COPY ./driver /build/driver
-COPY ./userspace /build/userspace
-COPY ./cmake /build/cmake
 COPY ./scripts /build/scripts
-COPY ./CMakeLists.txt /build/
 
 ENV PATH=$PATH:/usr/local/go/bin/
 ENV GOPATH=/go/
@@ -57,7 +53,9 @@ ENV FALCOSECURITY_LIBS_LDFLAGS='-L$(FALCOSECURITY_LIBS_LIB_PREFIX)/ \
                                 $(FALCOSECURITY_LIBS_LIB_PREFIX)/libabsl_debugging_internal.a $(FALCOSECURITY_LIBS_LIB_PREFIX)/libabsl_demangle_internal.a \
 		                        -lelf -lstdc++ -lz -lrt -lanl -lssl -lcrypto -lpthread -lm -ldl -lupb -laddress_sorting -lre2'
 
-RUN cd build && mkdir -p build && cd build && mkdir -p /usr/local/ && \
+RUN wget -P /build https://github.com/falcosecurity/libs/archive/${FALCOSECURITY_LIBS_VERSION}.tar.gz && \
+    FALCOSECURITY_LIBS_CHECKSUM=$(cat /build/${FALCOSECURITY_LIBS_VERSION}.tar.gz | sha256sum | cut -d " " -f 1) && \
+    cd build && mkdir -p build && cd build && mkdir -p /usr/local/ && \
     apt update && apt install -y --no-install-recommends \
         git \
         cmake \
