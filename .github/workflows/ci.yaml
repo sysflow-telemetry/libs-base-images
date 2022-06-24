@@ -172,7 +172,7 @@ jobs:
           push: true
           file: "docker/driver-loader/Dockerfile.ubi"
           build-args: |
-            UBI_VERSION=${{ UBI_VERSION }}
+            UBI_VERSION=${{ env.UBI_VERSION }}
             FALCOSECURITY_LIBS_VERSION=${{ env.FALCOSECURITY_LIBS_VERSION }}
             FALCOSECURITY_LIBS_DRIVER_VERSION=${{ env.FALCOSECURITY_LIBS_DRIVER_VERSION }}
       - name: Image digest
