@@ -151,7 +151,7 @@ jobs:
         if: ${{ steps.checks.outputs.runtime_ubi_exists == 0 || github.event.name == 'workflow_dispatch' }}
         with:
           images: |
-            ghcr.io/${{ github.repository }}/runtime
+            ghcr.io/${{ github.repository }}/runtime-ubi
           tags: |
             type=raw,value=${{ env.UBI_VERSION }}-${{ env.FALCOSECURITY_LIBS_DRIVER_VERSION }}
             type=raw,value=${{ env.UBI_VERSION }}-${{ env.FALCOSECURITY_LIBS_DRIVER_VERSION_SHORT }}
