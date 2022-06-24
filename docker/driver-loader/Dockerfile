@@ -110,7 +110,6 @@ RUN curl -L -o binutils_2.30-22_amd64.deb https://download.falco.org/dependencie
 # Copy the driver loader and entrypoint scripts
 COPY --from=libs /usr/bin/falco-driver-loader /usr/bin/
 COPY --from=libs /usr/bin/docker-entrypoint.sh /
+COPY --from=libs /usr/src/falco-${FALCOSECURITY_LIBS_DRIVER_VERSION} /usr/src/falco-${FALCOSECURITY_LIBS_DRIVER_VERSION}
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-
-CMD ["/usr/bin/falco"]
