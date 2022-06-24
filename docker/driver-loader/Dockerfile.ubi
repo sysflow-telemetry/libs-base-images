@@ -45,7 +45,7 @@ RUN mkdir /build && cd /build/ && curl --remote-name-all -L https://github.com/d
 
 # Copy the driver loader and entrypoint scripts
 COPY --from=libs /usr/bin/falco-driver-loader /usr/bin/
-# COPY --from=libs /usr/bin/docker-entrypoint-ubi.sh /docker-entrypoint.sh
+COPY --from=libs /usr/bin/docker-entrypoint-ubi.sh /docker-entrypoint.sh
 COPY --from=libs /usr/src/falco-${FALCOSECURITY_LIBS_DRIVER_VERSION} /usr/src/falco-${FALCOSECURITY_LIBS_DRIVER_VERSION}
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
