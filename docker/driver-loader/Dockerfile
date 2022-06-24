@@ -5,6 +5,8 @@ FROM ghcr.io/sysflow-telemetry/libs-base-images/libs:${FALCOSECURITY_LIBS_VERSIO
 
 FROM debian:buster as runtime
 
+ARG FALCOSECURITY_LIBS_DRIVER_VERSION
+
 ARG DRIVER_PACKAGE_NAME=falco
 
 LABEL "name"="Base image for Libs consumers containing the Falco driver loader"
