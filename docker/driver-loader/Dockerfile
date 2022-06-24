@@ -1,7 +1,7 @@
 ARG FALCOSECURITY_LIBS_DRIVER_VERSION
 ARG FALCOSECURITY_LIBS_VERSION
 
-FROM ghcr.io/sysflow-telemetry/libs-base-images:${FALCOSECURITY_LIBS_VERSION} as libs
+FROM ghcr.io/sysflow-telemetry/libs-base-images/libs:${FALCOSECURITY_LIBS_VERSION} as libs
 
 FROM debian:buster as runtime
 
