@@ -1,19 +1,16 @@
-ARG FALCOSECURITY_LIBS_DRIVER_VERSION
 ARG FALCOSECURITY_LIBS_VERSION
-
 FROM ghcr.io/sysflow-telemetry/libs-base-images/libs:${FALCOSECURITY_LIBS_VERSION} as libs
 
 FROM debian:buster as runtime
 
 ARG FALCOSECURITY_LIBS_DRIVER_VERSION
-
 ARG DRIVER_PACKAGE_NAME=falco
 
 LABEL "name"="Base image for Libs consumers containing the Falco driver loader"
 LABEL "vendor"="Falco"
 LABEL "version"="${FALCOSECURITY_LIBS_VERSION}"
 LABEL "release"="${FALCOSECURITY_LIBS_VERSION}"
-LABEL "driver"="${FALCOSECURITY_LIBS_DRIVER_VERSION}"
+LABEL "driver-version"="${FALCOSECURITY_LIBS_DRIVER_VERSION}"
 LABEL "summary"="Falco drivers implement the probes for system event collection used by Libs consumers."
 LABEL "description"="Falco drivers implement the probes for system event collection used by Libs consumers"
 LABEL "io.k8s.display-name"="Falco Drivers"
