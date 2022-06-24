@@ -22,7 +22,7 @@ LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCO
 ENV PATH=$PATH:/usr/local/go/bin/
 ENV GOPATH=/go/
 
-ENV FALCOSECURITY_LIBS_LIB_PREFIX=/usr/lib/falcosecurity
+ENV FALCOSECURITY_LIBS_LIB_PREFIX=/usr/lib/x86_64-linux-gnu/falcosecurity
 ENV FALCOSECURITY_LIBS_INCLUDE_PREFIX=/usr/include/falcosecurity
 ENV FALCOSECURITY_LIBS_CFLAGS='-I$(FALCOSECURITY_LIBS_INCLUDE_PREFIX)/ \
                                -I$(FALCOSECURITY_LIBS_INCLUDE_PREFIX)/userspace/libsinsp \
@@ -83,4 +83,5 @@ RUN mkdir -p /build && cd build && \
     make install && cp /build/falco-${FALCO_VERSION}/docker/falco/docker-entrypoint.sh /usr/bin/ && \
     wget https://go.dev/dl/go1.17.7.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz && \
-    rm -rf /build && rm -rf /var/lib/apt/lists/*
+    rm -rf /build && rm -rf /var/lib/apt/lists/* && \
+    rm /usr/bin/falco
