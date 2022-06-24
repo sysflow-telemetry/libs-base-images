@@ -80,7 +80,7 @@ RUN mkdir -p /build && cd build && \
         -DCREATE_TEST_TARGETS=OFF \
         -DBUILD_BPF=OFF  \
         -DBUILD_DRIVER=OFF ../. && \
-    make install && cp docker/falco/docker-entrypoint.sh /usr/bin/ && \
+    make install && cp /build/falco-${FALCO_VERSION}/docker/falco/docker-entrypoint.sh /usr/bin/ && \
     wget https://go.dev/dl/go1.17.7.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz && \
     rm -rf /build && rm -rf /var/lib/apt/lists/*
