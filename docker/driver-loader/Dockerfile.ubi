@@ -1,9 +1,12 @@
+ARG UBI_VERSION=latest
 ARG FALCOSECURITY_LIBS_VERSION
+
 FROM ghcr.io/sysflow-telemetry/libs-base-images/libs:${FALCOSECURITY_LIBS_VERSION} as libs
 
-ARG UBI_VERSION=latest
 FROM registry.access.redhat.com/ubi8/ubi:${UBI_VERSION} as runtime
 
+ARG UBI_VERSION=latest
+ARG FALCOSECURITY_LIBS_VERSION
 ARG FALCOSECURITY_LIBS_DRIVER_VERSION
 ARG DRIVER_PACKAGE_NAME=falco
 
@@ -42,7 +45,7 @@ RUN mkdir /build && cd /build/ && curl --remote-name-all -L https://github.com/d
 
 # Copy the driver loader and entrypoint scripts
 COPY --from=libs /usr/bin/falco-driver-loader /usr/bin/
-COPY --from=libs /usr/bin/docker-entrypoint-ubi.sh /docker-entrypoint.sh
+# COPY --from=libs /usr/bin/docker-entrypoint-ubi.sh /docker-entrypoint.sh
 COPY --from=libs /usr/src/falco-${FALCOSECURITY_LIBS_DRIVER_VERSION} /usr/src/falco-${FALCOSECURITY_LIBS_DRIVER_VERSION}
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
