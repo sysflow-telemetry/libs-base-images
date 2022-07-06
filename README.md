@@ -8,6 +8,8 @@ This repository packages two base images for creating [libs](https://github.com/
 |---|---|---|---|
 | ghcr.io/sysflow-telemetry/libs-base-images/libs | A base image containing the pre-installed Falco Libs and tools for building Libs consumers | [docker/libs](https://github.com/sysflow-telemetry/libs-base-images/blob/master/docker/libs/Dockerfile) | FALCOSECURITY_LIBS_CFLAGS<br>FALCOSECURITY_LIBS_LDFLAGS |
 | ghcr.io/sysflow-telemetry/libs-base-images/runtime | A base image containing the Falco Libs driver loader, to be used to build Libs consumer release images | [docker/driver-loader](https://github.com/sysflow-telemetry/libs-base-images/blob/master/docker/driver-loader/Dockerfile) | |
+| ghcr.io/sysflow-telemetry/libs-base-images/runtime-ubi | A base image containing the Falco Libs driver loader based on Red Hat UBI, to be used to build Libs consumer release images | [docker/driver-loader](https://github.com/sysflow-telemetry/libs-base-images/blob/master/docker/driver-loader/Dockerfile.ubi) | |
+
 
 The libs builder image defines two built-in environment variables that can be used in build automation for Libs consumers (e.g., see this [Makefile](examples/cppscap/Makefile)):
 
