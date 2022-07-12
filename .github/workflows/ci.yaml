@@ -19,10 +19,10 @@ jobs:
         id: args
         shell: bash
         run: |
-          echo "FALCOSECURITY_LIBS_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_VERSION_SHORT=$(V=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' makefile.manifest.inc); echo ${V:0:7})" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
-          echo "FALCO_VERSION=$(awk -F'=' '/FALCO_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' manifest)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_VERSION_SHORT=$(V=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' manifest); echo ${V:0:7})" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' manifest)" >> $GITHUB_ENV
+          echo "FALCO_VERSION=$(awk -F'=' '/FALCO_VERSION/{print $2}' manifest)" >> $GITHUB_ENV
       - name: Check if image exists
         id: checks
         shell: bash
@@ -77,9 +77,9 @@ jobs:
         id: args
         shell: bash
         run: |
-          echo "FALCOSECURITY_LIBS_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_DRIVER_VERSION_SHORT=$(V=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' makefile.manifest.inc); echo ${V:0:7})" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' manifest)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' manifest)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_DRIVER_VERSION_SHORT=$(V=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' manifest); echo ${V:0:7})" >> $GITHUB_ENV
       - name: Check if image exists
         id: checks
         shell: bash
@@ -133,10 +133,10 @@ jobs:
         id: args
         shell: bash
         run: |
-          echo "UBI_VERSION=$(awk -F'=' '/UBI_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' makefile.manifest.inc)" >> $GITHUB_ENV
-          echo "FALCOSECURITY_LIBS_DRIVER_VERSION_SHORT=$(V=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' makefile.manifest.inc); echo ${V:0:7})" >> $GITHUB_ENV
+          echo "UBI_VERSION=$(awk -F'=' '/UBI_VERSION/{print $2}' manifest)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_VERSION/{print $2}' manifest)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_DRIVER_VERSION=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' manifest)" >> $GITHUB_ENV
+          echo "FALCOSECURITY_LIBS_DRIVER_VERSION_SHORT=$(V=$(awk -F'=' '/FALCOSECURITY_LIBS_DRIVER_VERSION/{print $2}' manifest); echo ${V:0:7})" >> $GITHUB_ENV
       - name: Check if image exists
         id: checks
         shell: bash
