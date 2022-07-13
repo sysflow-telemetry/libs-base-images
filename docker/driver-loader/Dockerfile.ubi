@@ -1,27 +1,27 @@
 ARG UBI_VERSION=latest
-ARG FALCOSECURITY_LIBS_VERSION
+ARG FALCO_LIBS_VERSION
 
-FROM ghcr.io/sysflow-telemetry/libs-base-images/libs:${FALCOSECURITY_LIBS_VERSION} as libs
+FROM ghcr.io/sysflow-telemetry/libs-base-images/libs:${FALCO_LIBS_VERSION} as libs
 
 FROM registry.access.redhat.com/ubi8/ubi:${UBI_VERSION} as runtime
 
 ARG UBI_VERSION=latest
-ARG FALCOSECURITY_LIBS_VERSION
-ARG FALCOSECURITY_LIBS_DRIVER_VERSION
+ARG FALCO_LIBS_VERSION
+ARG FALCO_LIBS_DRIVER_VERSION
 ARG DRIVER_PACKAGE_NAME=falco
 
 LABEL "name"="Base image for Libs consumers containing the Falco driver loader"
 LABEL "vendor"="Falco"
-LABEL "version"="${FALCOSECURITY_LIBS_VERSION}"
-LABEL "release"="${FALCOSECURITY_LIBS_VERSION}"
-LABEL "driver-version"="${FALCOSECURITY_LIBS_DRIVER_VERSION}"
+LABEL "version"="${FALCO_LIBS_VERSION}"
+LABEL "release"="${FALCO_LIBS_VERSION}"
+LABEL "driver-version"="${FALCO_LIBS_DRIVER_VERSION}"
 LABEL "ubi-version"="${UBI_VERSION}"
 LABEL "summary"="Falco drivers implement the probes for system event collection used by Libs consumers."
 LABEL "description"="Falco drivers implement the probes for system event collection used by Libs consumers"
 LABEL "io.k8s.display-name"="Falco Drivers"
 LABEL "io.k8s.description"="Falco drivers implement the probes for system event collection used by Libs consumers"
 LABEL maintainer="cncf-falco-dev@lists.cncf.io"
-LABEL usage="docker build --build-args FALCOSECURITY_LIBS_DRIVER_VERSION=${FALCOSECURITY_LIBS_DRIVER_VERSION} --build-args FALCOSECURITY_LIBS_VERSION=${FALCOSECURITY_LIBS_VERSION} --build-args UBI_VERSION=${UBI_VERSION} -f ./docker/driver-loader/Dockerfile -t falcosecurity/driver-loader ."
+LABEL usage="docker build --build-arg FALCO_LIBS_DRIVER_VERSION=${FALCO_LIBS_DRIVER_VERSION} --build-arg FALCO_LIBS_VERSION=${FALCO_LIBS_VERSION} --build-arg UBI_VERSION=${UBI_VERSION} -f ./docker/driver-loader/Dockerfile -t FALCO/driver-loader ."
 
 ARG VERSION_BUCKET=deb
 ENV VERSION_BUCKET=${VERSION_BUCKET}
@@ -46,6 +46,6 @@ RUN mkdir /build && cd /build/ && curl --remote-name-all -L https://github.com/d
 # Copy the driver loader and entrypoint scripts
 COPY --from=libs /usr/bin/falco-driver-loader /usr/bin/
 COPY --from=libs /usr/bin/docker-entrypoint-ubi.sh /docker-entrypoint.sh
-COPY --from=libs /usr/src/falco-${FALCOSECURITY_LIBS_DRIVER_VERSION} /usr/src/falco-${FALCOSECURITY_LIBS_DRIVER_VERSION}
+COPY --from=libs /usr/src/falco-${FALCO_LIBS_DRIVER_VERSION} /usr/src/falco-${FALCO_LIBS_DRIVER_VERSION}
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
