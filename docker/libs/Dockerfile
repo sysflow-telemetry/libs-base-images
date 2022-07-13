@@ -89,7 +89,6 @@ RUN mkdir -p /build && cd build && \
     cp /build/falco-${FALCO_VERSION}/docker/falco/docker-entrypoint.sh /usr/bin/ && \
     cp /build/falco-${FALCO_VERSION}/docker/ubi/docker-entrypoint.sh /usr/bin/docker-entrypoint-ubi.sh && \
     wget https://go.dev/dl/go1.17.7.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz 
-    #&& \
-    #rm -rf /build && rm -rf /var/lib/apt/lists/* && \
-    #rm /usr/bin/falco
+    tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz && \
+    rm -rf /build && rm -rf /var/lib/apt/lists/* && \
+    rm /usr/bin/falco
