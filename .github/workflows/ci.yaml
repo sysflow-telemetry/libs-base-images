@@ -63,7 +63,6 @@ jobs:
             FALCO_LIBS_DRIVER_VERSION=${{ env.FALCO_LIBS_DRIVER_VERSION }}
             FALCO_VERSION=${{ env.FALCO_VERSION }}
             FALCO_FIELDS_CHECKSUM=${{ env.FALCO_FIELDS_CHECKSUM }}
-            MAKE_JOBS=2
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
         if: ${{ steps.checks.outputs.libs_exists == 0 || github.event_name == 'workflow_dispatch' }}
