@@ -55,7 +55,7 @@ ENV FALCO_LIBS_LDFLAGS='-L$(FALCO_LIBS_LIB_PREFIX)/ \
 		                        -lelf -lstdc++ -lz -lrt -lanl -lssl -lcrypto -lpthread -lm -ldl -lupb -laddress_sorting -lre2 -lcares -lprotobuf'
 
 RUN mkdir -p /build && cd build && \
-    apk add g++ gcc cmake cmake make git bash perl linux-headers autoconf automake m4 libtool elfutils-dev libelf-static patch binutils && \
+    apk add g++ gcc cmake make git bash perl linux-headers autoconf automake m4 libtool elfutils-dev libelf-static patch binutils && \
     wget https://github.com/falcosecurity/falco/archive/refs/tags/${FALCO_VERSION}.tar.gz && \
     tar xvf ${FALCO_VERSION}.tar.gz && cd falco-${FALCO_VERSION} && \
     ([ -z "$FALCO_FIELDS_CHECKSUM" ] || sed -i "s/\(#define FALCO_FIELDS_CHECKSUM \).*/\1\"${FALCO_FIELDS_CHECKSUM}\"/" userspace/engine/falco_engine_version.h) && \
