@@ -35,8 +35,7 @@ ENV FALCO_LIBS_LDFLAGS='-L$(FALCO_LIBS_LIB_PREFIX)/ \
                                 $(FALCO_LIBS_LIB_PREFIX)/libb64.a $(FALCO_LIBS_LIB_PREFIX)/libcurl.a $(FALCO_LIBS_LIB_PREFIX)/libtbb.a $(FALCO_LIBS_LIB_PREFIX)/libgrpc++.a \
                                 $(FALCO_LIBS_LIB_PREFIX)/libgrpc++_alts.a $(FALCO_LIBS_LIB_PREFIX)/libgrpc++_reflection.a  $(FALCO_LIBS_LIB_PREFIX)/libgrpc++_error_details.a \
                                 $(FALCO_LIBS_LIB_PREFIX)/libgrpc++_unsecure.a  $(FALCO_LIBS_LIB_PREFIX)/libgrpc_plugin_support.a $(FALCO_LIBS_LIB_PREFIX)/libgrpcpp_channelz.a \
-                                $(FALCO_LIBS_LIB_PREFIX)/libgrpc.a $(FALCO_LIBS_LIB_PREFIX)/libgpr.a -lcares -lprotobuf  \
-                                $(FALCO_LIBS_LIB_PREFIX)/libsinsp.a $(FALCO_LIBS_LIB_PREFIX)/libscap.a $(FALCO_LIBS_LIB_PREFIX)/libjq.a $(FALCO_LIBS_LIB_PREFIX)/libonig.a \
+                                $(FALCO_LIBS_LIB_PREFIX)/libgrpc.a $(FALCO_LIBS_LIB_PREFIX)/libgpr.a \
                                 $(FALCO_LIBS_LIB_PREFIX)/libabsl_synchronization.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_graphcycles_internal.a  $(FALCO_LIBS_LIB_PREFIX)/libabsl_status.a \
                                 $(FALCO_LIBS_LIB_PREFIX)/libabsl_statusor.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_strings.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_strings_internal.a \
                                 $(FALCO_LIBS_LIB_PREFIX)/libabsl_cord.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_cordz_functions.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_cord_internal.a \
@@ -53,7 +52,7 @@ ENV FALCO_LIBS_LDFLAGS='-L$(FALCO_LIBS_LIB_PREFIX)/ \
                                 $(FALCO_LIBS_LIB_PREFIX)/libabsl_bad_optional_access.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_time.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_time_zone.a \
                                 $(FALCO_LIBS_LIB_PREFIX)/libabsl_int128.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_stacktrace.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_symbolize.a \
                                 $(FALCO_LIBS_LIB_PREFIX)/libabsl_debugging_internal.a $(FALCO_LIBS_LIB_PREFIX)/libabsl_demangle_internal.a \
-		                        -lelf -lstdc++ -lz -lrt -lanl -lssl -lcrypto -lpthread -lm -ldl -lupb -laddress_sorting -lre2'
+		                        -lelf -lstdc++ -lz -lrt -lanl -lssl -lcrypto -lpthread -lm -ldl -lupb -laddress_sorting -lre2 -lcares -lprotobuf'
 
 RUN mkdir -p /build && cd build && \
     apt update && apt install -y --no-install-recommends \
